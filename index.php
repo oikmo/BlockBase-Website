@@ -20,7 +20,7 @@
 								<p style="font-size:13px;">
 									BlockBase is a game about placing blocks to build anything your nasty little brain can think of!
 									It also has music by <a href="https://web.archive.org/web/20101228175514/http://c418.org/" target="_blank">C418</a>! 
-									So far <?=$amount_of_users ?> people have registered! 
+									So far <?=$amount_of_users ?> <?php if($amount_of_users == 1) :?> person has <?php endif ?> <?php if($amount_of_users > 1 ) :?> people have <?php endif ?> registered! 
 									<a href="/stats.php">More stats here</a>. You can also find some servers <a href="/servers.php">here</a> and all people registered <a href="/users.php">here</a>!
 								</p>
 							</div>

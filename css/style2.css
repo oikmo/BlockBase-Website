@@ -45,6 +45,11 @@
 	color:white;
 }
 
+.download-now__button:link {
+	color:white;
+}
+
+
 
 a:link {
 	color: #aaf;

@@ -14,7 +14,7 @@
 				<h1>Register a new account</h1><br>
 				<?php 
 					if(isset($_SESSION['status'])) {
-						echo "<h4>".$_SESSION['status']."</h4>";
+						echo "<h4 style='margin-top:-16px;'>".$_SESSION['status']."</h4>";
 						unset($_SESSION['status']);
 					}
 				?>

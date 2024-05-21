@@ -29,10 +29,6 @@
 		$errormsg = "";
 		
 		$errorcheck = false;
-		if($emails > 0) {
-			$errorcheck = true;
-			$errormsg .= "Email is already in use!\n";
-		} 
 		
 		if(!preg_match('/^\S*$/u', $username)) {
 			$errorcheck = true;
@@ -77,6 +73,16 @@
 			$errorcheck = true;
 			$errormsg .= "Email field was empty!\n";
 		}
+		
+		if(!filter_var($email , FILTER_VALIDATE_EMAIL) ){
+			$errorcheck = true;
+			$errormsg .= "Email was not valid!\n";
+		}
+		
+		if($emails > 0) {
+			$errorcheck = true;
+			$errormsg .= "Email is already in use!\n";
+		} 
 
 		if($errorcheck == false) {
 			//encypts password with default crypt library
@@ -93,6 +99,9 @@
 					'username' => $username,
 					'email' => $email,
 				];
+				if (!is_dir("C:/inetpub/wwwroot/users/$username")) {
+					mkdir("C:/inetpub/wwwroot/users/$username", 0777, true);
+				}
 				header("Location: register.php");
 			} else {
 				$_SESSION['status'] = "Registration failed.";
@@ -129,7 +138,6 @@
 				$pw = $row_data['password'];
 				$email = $row_data['password'];
 			}
-
 			
 			if($result > 0 && password_verify($password, $pw) == true) {
 				$_SESSION['authenticated'] = TRUE;
@@ -142,7 +150,7 @@
 			} else {
 				$higher = $result > 0;
 				$pw_verify = password_verify($password, $pw) == true;
-				$_SESSION['status'] = "$email. Invalid username or password (or user doesn't exist)!";
+				$_SESSION['status'] = "Invalid username or password (or user doesn't exist)!";
 				header("Location: login.php");
 				exit(0);
 			}
@@ -152,6 +160,45 @@
 			exit(0);
 		}
 		
+	}
+	
+	if(isset($_POST['upload_btn'])) {
+		
+		$upload_path = 'C:/inetpub/wwwroot/users'; 
+		$upload_path = $upload_path.'/'.$_SESSION['auth_user']['username'].'/skin_'.$_SESSION['auth_user']['username'].'.png';
+		
+		$image = getimagesize($_FILES['skin']['tmp_name']);
+		
+		if ($image == null) {
+			$_SESSION['status'] = ($_FILES['skin']!=null)."That was not a valid image!";
+			header("Location: profile.php");
+			exit(0);
+		} else {
+			list($width, $height, $type, $attr) = $image; 
+			if($width == $height && $width == 64 && $type == IMAGETYPE_PNG) {
+				
+				if(move_uploaded_file($_FILES['skin']['tmp_name'],$upload_path)){
+					$_SESSION['status'] = "Image uploaded successfully!";
+					header("Location: profile.php");
+					exit(0);
+				}
+			} else {
+				$errortext = "Error! : ";
+				
+				if($width != 64) {
+					$errortext .= "That was not a valid image size!";
+				}
+				
+				if($type != IMAGETYPE_PNG) {
+					$errortext .= "That was not a valid image (png)!";
+				}
+				
+				$_SESSION['status'] = $errortext;
+				header("Location: profile.php");
+				exit(0);
+			}
+			
+		}
 	}
 
 	if(isset($_GET['username']) || isset($_GET['password'])) {
@@ -168,7 +215,7 @@
 				$stmt_result = $stmt->get_result();
 				$result = 0;
 				$result = $stmt_result->num_rows;
-			
+				
 				$name = "";
 				$pw = "";
 				$email = "";
@@ -179,7 +226,7 @@
 					$email = $row_data['password'];
 				}
 				
-				if(result > 0 && password_verify($password, $pw) == true) {
+				if($result > 0 && password_verify($password, $pw) == true) {
 					$_SESSION['authenticated'] = TRUE;
 					$_SESSION['auth_user'] = [
 						'username' => $name,

@@ -8,7 +8,15 @@
 			<div style="height:600px;">
 				<br>
 				<h2>All users who have registered!</h2>
-				If you want to join in then register <a href="/register.php">here</a>!<br>
+				
+				<?php if(!isset($_SESSION['authenticated'])) :?>
+					If you want to join in then register <a href="/register.php">here</a>!<br>
+				<?php endif ?>
+				
+				<?php if(isset($_SESSION['authenticated'])) :?>
+					Congrats! You are on the list!<br>
+				<?php endif ?>
+				
 				<p>
 					<br>
 					<table style="margin: 0 auto;">

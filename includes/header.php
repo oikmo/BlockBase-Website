@@ -1,7 +1,7 @@
 <?php
 	$pagename = str_replace(".php", "", basename($_SERVER['PHP_SELF']));
 	
-	if($pagename != "login" && $pagename != "register") {
+	if($pagename != "login" && $pagename != "register" && $pagename != "profile") {
 		session_start();
 	}	
  ?>
@@ -75,7 +75,7 @@ td {
 										<?php endif ?>
 										
 										<?php if(isset($_SESSION['authenticated'])) : ?>
-											<span style="text-decoration: none; font-size: 16px; padding-top: 5px;font-weight: bold;"><?= $_SESSION['auth_user']['username']; ?></span> | 
+											<a href="/profile.php" class="loginpanel"><?= $_SESSION['auth_user']['username']; ?></a> | 
 											<a href="/logout.php" class="loginpanel">Logout</a>
 										<?php endif ?>
 										
