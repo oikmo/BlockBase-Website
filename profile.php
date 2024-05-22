@@ -20,7 +20,8 @@
 				<table>
 					<tbody>
 						<tr>
-							<td>Skin (64x64):</td>
+							
+							<td>Skin (<a href="/img/skin_template.png">template</a>, <a href="/img/default_skin.png">default</a>) [64x64]:</td>
 							<td><input type="file" name="skin" id="skin"></td>
 						</tr>
 						<tr>

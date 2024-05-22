@@ -33,7 +33,7 @@
 									echo "<tr>";
 									$username = $row['username'];
 									$timejoined = $row['created_at'];
-									echo "<td><b>$username</b></td>";
+									echo "<td><b><a href='/users/$username/skin_$username.png'>$username</a></b></td>";
 									echo "<td>$timejoined</td>";
 									echo "</tr>";
 								}
