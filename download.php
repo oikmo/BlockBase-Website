@@ -7,7 +7,7 @@
 			<h2>Downloading the game</h2>
 			<p>(ps: alot of this is just copy and paste with a little bit more formatting)</p>
 			<h2>Windows:</h2>
-				Download <a href="/download/BlockBase-windows.jar">BlockBase-windows.jar</a>, place it anywhere you want, then run it.<br>
+				Download <a href="/download/blockbase-windows.zip">blockbase-windows.zip</a>, place it anywhere you want, then run the bat and login.<br>
 			<h2>Multiplayer server software</h2>
 				<p>Multiplayer support is currently under heavy development, and is riddled with bugs. You can help test it, though. It will get better soon, I promise!</p>
 				If you're running on windows and just want to set up a server easily, download <a href="/download/BlockBase-Server.jar">BlockBase-Server.jar</a>, place it anywhere you want, then run it.

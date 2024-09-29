@@ -30,7 +30,7 @@
 		
 		$errorcheck = false;
 		
-		if(!preg_match('/^\S*$/u', $username)) {
+		if(!preg_match('/^\w*$/', $username)) {
 			$errorcheck = true;
 			$errormsg .= "Username is not valid!\n";
 		}
@@ -99,9 +99,13 @@
 					'username' => $username,
 					'email' => $email,
 				];
-				if (!is_dir("C:/inetpub/wwwroot/users/$username")) {
-					mkdir("C:/inetpub/wwwroot/users/$username", 0777, true);
+				
+				$root_path = "./users/"; 
+				if (!is_dir("$root_path/$username/")) {
+					mkdir("$root_path/$username/", 0755, true);
 				}
+				
+				
 				header("Location: register.php");
 			} else {
 				$_SESSION['status'] = "Registration failed.";
@@ -136,7 +140,7 @@
 			while($row_data = $stmt_result->fetch_assoc()) {
 				$name = $row_data['username'];
 				$pw = $row_data['password'];
-				$email = $row_data['password'];
+				$email = $row_data['email'];
 			}
 			
 			if($result > 0 && password_verify($password, $pw) == true) {
@@ -163,14 +167,13 @@
 	}
 	
 	if(isset($_POST['upload_btn'])) {
-		
-		$upload_path = 'C:/inetpub/wwwroot/users'; 
-		$upload_path = $upload_path.'/'.$_SESSION['auth_user']['username'].'/skin_'.$_SESSION['auth_user']['username'].'.png';
+		$upload_path = getcwd()."/users/"; 
+		$upload_path = $upload_path.$_SESSION['auth_user']['username'].'/skin_'.$_SESSION['auth_user']['username'].'.png';
 		
 		$image = getimagesize($_FILES['skin']['tmp_name']);
 		
 		if ($image == null) {
-			$_SESSION['status'] = ($_FILES['skin']!=null)."That was not a valid image!";
+			$_SESSION['status'] = "That was not a valid image!";
 			header("Location: profile.php");
 			exit(0);
 		} else {
@@ -181,6 +184,12 @@
 					$_SESSION['status'] = "Image uploaded successfully!";
 					header("Location: profile.php");
 					exit(0);
+				} else {
+					$_SESSION['status'] = "Image did not upload successfully...";
+					echo getcwd();
+					echo $upload_path;
+					//header("Location: profile.php");
+					//exit(0);
 				}
 			} else {
 				$errortext = "Error! : ";
@@ -223,7 +232,7 @@
 				while($row_data = $stmt_result->fetch_assoc()) {
 					$name = $row_data['username'];
 					$pw = $row_data['password'];
-					$email = $row_data['password'];
+					$email = $row_data['email'];
 				}
 				
 				if($result > 0 && password_verify($password, $pw) == true) {
